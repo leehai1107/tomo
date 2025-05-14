@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/leehai1107/tomo/pkg/config"
 	"github.com/leehai1107/tomo/pkg/logger"
 )
 
@@ -36,7 +37,7 @@ func (s *service) Register(r *gin.Engine) {
 
 func (s *service) StartServer(handler http.Handler, port string) {
 	s.server = http.Server{
-		Addr:    "0.0.0.0:" + port,
+		Addr:    config.ServerConfig().SERVERUrl + ":" + port,
 		Handler: handler,
 	}
 	if err := s.server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
