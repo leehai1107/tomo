@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -119,7 +120,10 @@ func startServer(lifecycle fx.Lifecycle, g *gin.Engine) {
 	lifecycle.Append(
 		fx.Hook{
 			OnStart: func(context.Context) error {
-				port := fmt.Sprintf("%d", config.ServerConfig().HTTPPort)
+				port := os.Getenv("PORT")
+				if port == "" {
+					port = fmt.Sprintf("%d", config.ServerConfig().HTTPPort)
+				}
 				logger.Info("run on port:", port)
 				go gracefulService.StartServer(g, port)
 				return nil
