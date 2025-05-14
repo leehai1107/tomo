@@ -36,7 +36,7 @@ func (s *service) Register(r *gin.Engine) {
 
 func (s *service) StartServer(handler http.Handler, port string) {
 	s.server = http.Server{
-		Addr:    ":" + port,
+		Addr:    "0.0.0.0:" + port,
 		Handler: handler,
 	}
 	if err := s.server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
